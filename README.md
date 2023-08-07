@@ -1,6 +1,6 @@
 # firebase_crud
 
-A new Flutter project.
+CRUD em Flutter utilizando FIREBASE
 
 ## Getting Started
 
