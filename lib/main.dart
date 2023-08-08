@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crud/user_page.dart';
 import 'package:firebase_crud/user_update_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 Future main() async {
@@ -17,9 +19,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -40,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All Users'),
+        title: const Text('Cadastro de Usuários'),
       ),
       body: StreamBuilder<List<User>>(
         stream: readUsers(),
@@ -48,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapshot.hasData) {
             final users = snapshot.data;
 
-            return Container(
+            return SizedBox(
               width: 1000,
               child: ListView(
                 shrinkWrap: true,
@@ -63,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.white60,
           child: const Icon(Icons.add),
           onPressed: () {
             Navigator.push(
@@ -102,7 +107,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               IconButton(
                   onPressed: () {
-                    print(user.name);
+                    if (kDebugMode) {
+                      print(user.name);
+                    }
                     print(user.id);
                     Navigator.push(
                         context,
@@ -118,10 +125,41 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: const Icon(Icons.edit)),
               IconButton(
                 onPressed: () {
-                  final docUser = FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(user.id);
-                  docUser.delete();
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Excluir Usuário'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: [
+                                Text(
+                                    'Tem certeza que deseja excluir o cadastro de ${user.name}?')
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Não')),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                final docUser = FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(user.id);
+                                docUser.delete();
+                              },
+                              child: const Text(
+                                'Excluir Usuário',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            )
+                          ],
+                        );
+                      });
                 },
                 icon: const Icon(Icons.delete),
                 color: Colors.red,

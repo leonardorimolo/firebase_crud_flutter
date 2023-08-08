@@ -34,22 +34,23 @@ class _UserUpdatePageState extends State<UserUpdatePage> {
     controllerEmail.text = widget.email;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update User'),
+        title: const Text('Atualizar Usuário'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: <Widget>[
           TextFormField(
             controller: controllerName,
-            decoration: decoration('Name'),
+            decoration: decoration('Nome'),
           ),
           const SizedBox(height: 24),
           TextFormField(
             controller: controllerAge,
-            decoration: decoration('Age'),
+            decoration: decoration('Idade'),
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 24),
@@ -70,9 +71,10 @@ class _UserUpdatePageState extends State<UserUpdatePage> {
 
               await UpdateUser(user);
 
+              // ignore: use_build_context_synchronously
               Navigator.pop(context);
             },
-            child: const Text('Update User'),
+            child: const Text('Atualizar Usuário'),
           )
         ],
       ),
@@ -84,6 +86,7 @@ class _UserUpdatePageState extends State<UserUpdatePage> {
         border: const OutlineInputBorder(),
       );
 
+  // ignore: non_constant_identifier_names
   Future<void> UpdateUser(User user) async {
     final docUser =
         FirebaseFirestore.instance.collection('users').doc(widget.id);

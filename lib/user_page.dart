@@ -19,21 +19,21 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add User'),
+        title: const Text('Adicionar Usuário'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: <Widget>[
           TextField(
             controller: controllerName,
-            decoration: decoration('Name'),
+            decoration: decoration('Nome'),
           ),
           const SizedBox(
             height: 24,
           ),
           TextField(
             controller: controllerAge,
-            decoration: decoration('Age'),
+            decoration: decoration('Idade'),
             keyboardType: TextInputType.number,
           ),
           const SizedBox(
@@ -56,7 +56,7 @@ class _UserPageState extends State<UserPage> {
 
                 Navigator.pop(context);
               },
-              child: const Text('Create'))
+              child: const Text('Criar Usuário'))
         ],
       ),
     );
