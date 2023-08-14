@@ -1,6 +1,6 @@
 # firebase_crud
 
-CRUD em Flutter utilizando FIREBASE
+Aplicativo para Cadastro de usuários(CRUD) em Flutter, utilizando o banco de dados não relacional do FIREBASE.
 
 ## Getting Started
 
